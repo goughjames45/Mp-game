@@ -2,6 +2,7 @@ package Packets;
 
 import Game.Entity;
 import Game.World;
+import server.Server;
 
 public class PacketSendEntitiesAndID extends Packet {
 
@@ -19,7 +20,7 @@ public class PacketSendEntitiesAndID extends Packet {
 	}
 
 	@Override
-	public void onServer() {
+	public void onServer(Server server) {
 
 	}
 

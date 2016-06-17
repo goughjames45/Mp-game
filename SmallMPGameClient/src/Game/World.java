@@ -42,4 +42,10 @@ public class World {
 	public EntityPlayer getPlayer(){
 		return player;
 	}
+	
+	public Entity[] getEntities(){
+		Entity[] e = new Entity[entities.size()];
+		entities.toArray(e);
+		return e;
+	}
 }

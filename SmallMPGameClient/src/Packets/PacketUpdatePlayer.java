@@ -1,6 +1,7 @@
 package Packets;
 
 import Game.World;
+import server.Server;
 
 public class PacketUpdatePlayer extends Packet{
 
@@ -20,7 +21,7 @@ public class PacketUpdatePlayer extends Packet{
 	}
 	
 	@Override
-	public void onServer() {		
+	public void onServer(Server server) {		
 	}
 
 	@Override

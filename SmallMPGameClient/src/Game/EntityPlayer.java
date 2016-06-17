@@ -64,4 +64,14 @@ public class EntityPlayer extends Entity implements Runnable {
 	public void setID(int cID){
 		this.cID = cID;
 	}
+	
+	public EntityOtherPlayer toOtherPlayer(){
+		EntityOtherPlayer eop = new EntityOtherPlayer();
+		eop.r = r;
+		eop.x = x;
+		eop.y = y;
+		eop.vy = vy;
+		eop.vx = vx;
+		return eop;
+	}
 }

@@ -2,8 +2,9 @@ package Packets;
 
 import Game.Entity;
 import Game.World;
+import server.Server;
 
-public class NewEntity extends Packet {
+public class PacketNewEntity extends Packet {
 
 	/**
 	 * 
@@ -13,13 +14,13 @@ public class NewEntity extends Packet {
 	Entity e;
 	int index;
 	
-	public NewEntity(Entity e, int index) {
+	public PacketNewEntity(Entity e, int index) {
 		this.e = e;
 		this.index = index;
 	}
 	
 	@Override
-	public void onServer() {		
+	public void onServer(Server server) {		
 
 	}
 
