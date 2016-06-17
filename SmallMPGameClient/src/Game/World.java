@@ -6,6 +6,11 @@ import java.util.LinkedList;
 
 public class World {
 	ArrayList<Entity> entities = new ArrayList<Entity>();
+	EntityPlayer player;
+	
+	public World(EntityPlayer player){
+		this.player = player;
+	}
 	
 	public synchronized void render(Graphics g){
 		Iterator<Entity> it = entities.iterator();
@@ -21,16 +26,20 @@ public class World {
 		}
 	}
 	
-	public synchronized void addEntity(Entity e){
+	public synchronized void addEntity(Entity e, int index){
 		entities.add(e);
 	}
 	
-	public synchronized void removeEntity(Entity e){
-		entities.remove(e);
+	public synchronized void removeEntity(int index){
+		entities.remove(index);
 	}
 	
 	public synchronized void updateEntity(int index, int x, int y){
 		entities.get(index).x = x;
 		entities.get(index).y = y; 
+	}
+	
+	public EntityPlayer getPlayer(){
+		return player;
 	}
 }

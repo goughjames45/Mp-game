@@ -21,4 +21,12 @@ public class Entity implements Serializable{
 		y += vy;
 	}
 	
+	public void setLocation(int x, int y){
+		this.x = x;
+		this.y = y;	
+	}
+	public void setVelocity(int vx, int vy){
+		this.vx = vx;
+		this.vy = vy;	
+	}
 }

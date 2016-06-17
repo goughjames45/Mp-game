@@ -23,8 +23,8 @@ public class PacketSendEntities extends Packet {
 
 	@Override
 	public void onClient(World world) {
-		for(Entity e : entities){
-			world.addEntity(e);
+		for (int i = 0; i < entities.length; i++) {
+			world.addEntity(entities[i], i);
 		}
 	}
 }

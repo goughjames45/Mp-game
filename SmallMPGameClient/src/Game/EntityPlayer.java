@@ -39,5 +39,5 @@ public class EntityPlayer extends Entity{
 		}
 		
 		super.tick();
-	}
+	}	
 }

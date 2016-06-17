@@ -11,9 +11,11 @@ public class NewEntity extends Packet {
 	private static final long serialVersionUID = 3L;
 
 	Entity e;
+	int index;
 	
-	public NewEntity(Entity e) {
+	public NewEntity(Entity e, int index) {
 		this.e = e;
+		this.index = index;
 	}
 	
 	@Override
@@ -23,7 +25,7 @@ public class NewEntity extends Packet {
 
 	@Override
 	public void onClient(World world) {
-		world.addEntity(e);
+		world.addEntity(e,index);
 	}
 
 }

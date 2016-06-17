@@ -16,14 +16,16 @@ public class Game {
 	Display display;
 	World world;
 	Input input;
+	EntityPlayer player;
 	Socket server;
 	ObjectInputStream ois;
 	ObjectOutputStream oos;
 
 	public Game() {
-		world = new World();
-		display = new Display(world);
 		input = new Input();
+		player = new EntityPlayer(input);
+		world = new World(player);
+		display = new Display(world);		
 		display.addKeyListener(input);
 		init();
 		loop();
@@ -46,8 +48,7 @@ public class Game {
 	}
 
 	private void init() {
-		try {
-			world.addEntity(new EntityPlayer(input));
+		try {			
 			String host = (String) JOptionPane.showInputDialog("Enter host");
 			int port = Integer.parseInt(
 					(String) JOptionPane.showInputDialog("Enter port number"));
