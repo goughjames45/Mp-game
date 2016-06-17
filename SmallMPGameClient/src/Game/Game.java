@@ -1,4 +1,6 @@
 package Game;
+
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
@@ -8,6 +10,7 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 
 import Packets.Packet;
+import Packets.PacketUpdatePlayer;
 
 public class Game {
 
@@ -23,9 +26,9 @@ public class Game {
 
 	public Game() {
 		input = new Input();
-		player = new EntityPlayer(input);
+		player = new EntityPlayer(input, oos);
 		world = new World(player);
-		display = new Display(world);		
+		display = new Display(world);
 		display.addKeyListener(input);
 		init();
 		loop();
@@ -48,13 +51,15 @@ public class Game {
 	}
 
 	private void init() {
-		try {			
+		try {
 			String host = (String) JOptionPane.showInputDialog("Enter host");
 			int port = Integer.parseInt(
 					(String) JOptionPane.showInputDialog("Enter port number"));
 			server = new Socket(host, port);
 			ois = new ObjectInputStream(server.getInputStream());
 			oos = new ObjectOutputStream(server.getOutputStream());
+			Thread playerControl = new Thread(player);
+			playerControl.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 			init();
@@ -79,7 +84,8 @@ public class Game {
 			}
 		}
 	}
-	private void proccesPacket(){
+
+	private void proccesPacket() {
 		Packet p;
 		try {
 			p = (Packet) ois.readObject();
@@ -88,6 +94,6 @@ public class Game {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 }
