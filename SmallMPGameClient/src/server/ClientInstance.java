@@ -27,11 +27,21 @@ public class ClientInstance implements Runnable{
 		mycID = cID;
 		this.world = world;
 		this.server = server;
+		
+	}
+	
+	public void sendPacket(Packet p){
+		try {
+			oos.writeObject(p);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
 	public void run() {
 		try {
+			System.out.println("started server thread for client");
 			oos = new ObjectOutputStream(mySocket.getOutputStream());
 			ois = new ObjectInputStream(mySocket.getInputStream());
 			// send all the entities
@@ -43,16 +53,17 @@ public class ClientInstance implements Runnable{
 			}
 			PacketSendEntitiesAndID pseai = new PacketSendEntitiesAndID(entities, mycID);
 			oos.writeObject(pseai);
+			server.gameWorld.addEntity(new EntityPlayer(null, null), mycID);
 			while(mySocket.isConnected()){
 				try{
 					Packet p = (Packet) ois.readObject();
+					System.out.println("readgin client packets" + p.toString());
 					p.onServer(server);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try{

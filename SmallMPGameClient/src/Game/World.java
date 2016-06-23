@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import Packets.PacketUpdateEntity;
+import server.Server;
+
 public class World {
 	ArrayList<Entity> entities = new ArrayList<Entity>();
 	EntityPlayer player;
@@ -48,4 +51,11 @@ public class World {
 		entities.toArray(e);
 		return e;
 	}
+	
+	public synchronized void onServerTick(Server server){
+		for(int i = 0; i < entities.size();i++){
+			PacketUpdateEntity puppy = new PacketUpdateEntity(i,entities.get(i).getx(),entities.get(i).gety(),entities.get(i).getVelx(),entities.get(i).getVely());
+			server.broadCastPacket(puppy);
+		}
+	}	
 }

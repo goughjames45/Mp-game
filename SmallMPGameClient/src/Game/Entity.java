@@ -29,4 +29,16 @@ public class Entity implements Serializable{
 		this.vx = vx;
 		this.vy = vy;	
 	}
+	public int getx(){
+		return x;
+	}
+	public int gety(){
+		return y;
+	}
+	public int getVelx(){
+		return vx;
+	}
+	public int getVely(){
+		return vy;
+	}
 }

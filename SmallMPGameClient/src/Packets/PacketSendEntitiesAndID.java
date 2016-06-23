@@ -1,6 +1,7 @@
 package Packets;
 
 import Game.Entity;
+import Game.EntityPlayer;
 import Game.World;
 import server.Server;
 
@@ -30,5 +31,6 @@ public class PacketSendEntitiesAndID extends Packet {
 			world.addEntity(entities[i], i);
 		}
 		world.getPlayer().setID(cID);
+		world.addEntity(world.getPlayer(), cID);
 	}
 }

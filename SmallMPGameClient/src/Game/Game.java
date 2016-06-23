@@ -23,13 +23,10 @@ public class Game {
 	Socket server;
 	ObjectInputStream ois;
 	ObjectOutputStream oos;
+	public static boolean running = true;
 
 	public Game() {
-		input = new Input();
-		player = new EntityPlayer(input, oos);
-		world = new World(player);
-		display = new Display(world);
-		display.addKeyListener(input);
+		
 		init();
 		loop();
 
@@ -58,12 +55,18 @@ public class Game {
 			server = new Socket(host, port);
 			ois = new ObjectInputStream(server.getInputStream());
 			oos = new ObjectOutputStream(server.getOutputStream());
+			input = new Input();
+			player = new EntityPlayer(input, oos);
+			world = new World(player);
+			display = new Display(world);
+			display.addKeyListener(input);
 			Thread playerControl = new Thread(player);
 			playerControl.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 			init();
 		}
+		
 	}
 
 	private void loop() {
@@ -83,6 +86,7 @@ public class Game {
 				}
 			}
 		}
+		running = false;
 	}
 
 	private void proccesPacket() {

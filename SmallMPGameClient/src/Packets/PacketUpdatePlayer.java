@@ -18,10 +18,14 @@ public class PacketUpdatePlayer extends Packet{
 		this.y = y;
 		this.vx = vx;
 		this.vy = vy;
+		this.cID = cID;
 	}
 	
 	@Override
-	public void onServer(Server server) {		
+	public void onServer(Server server) {	
+		server.gameWorld.getEntities()[cID].setVelocity(vx, vy);
+		server.gameWorld.getEntities()[cID].setLocation(x, y);
+		
 	}
 
 	@Override

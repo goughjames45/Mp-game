@@ -39,33 +39,35 @@ public class EntityPlayer extends Entity implements Runnable {
 
 	@Override
 	public void run() {
-		vx = 0;
-		vy = 0;
-		if (input.isKeyDown(KeyEvent.VK_W)) {
-			vy -= 5;
-		}
-		if (input.isKeyDown(KeyEvent.VK_S)) {
-			vy += 5;
-		}
-		if (input.isKeyDown(KeyEvent.VK_A)) {
-			vx -= 5;
-		}
-		if (input.isKeyDown(KeyEvent.VK_D)) {
-			vx += 5;
-		}
-		PacketUpdatePlayer pup = new PacketUpdatePlayer(x, y, vx, vy, cID);
-		try {
-			oos.writeObject(pup);
-		} catch (IOException e) {
-			e.printStackTrace();
+		while (Game.running) {
+			vx = 0;
+			vy = 0;
+			if (input.isKeyDown(KeyEvent.VK_W)) {
+				vy -= 5;
+			}
+			if (input.isKeyDown(KeyEvent.VK_S)) {
+				vy += 5;
+			}
+			if (input.isKeyDown(KeyEvent.VK_A)) {
+				vx -= 5;
+			}
+			if (input.isKeyDown(KeyEvent.VK_D)) {
+				vx += 5;
+			}
+			PacketUpdatePlayer pup = new PacketUpdatePlayer(x, y, vx, vy, cID);
+			try {
+				oos.writeObject(pup);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-	
-	public void setID(int cID){
+
+	public void setID(int cID) {
 		this.cID = cID;
 	}
-	
-	public EntityOtherPlayer toOtherPlayer(){
+
+	public EntityOtherPlayer toOtherPlayer() {
 		EntityOtherPlayer eop = new EntityOtherPlayer();
 		eop.r = r;
 		eop.x = x;
