@@ -2,7 +2,6 @@ package Game;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 import Packets.PacketUpdateEntity;
 import server.Server;
