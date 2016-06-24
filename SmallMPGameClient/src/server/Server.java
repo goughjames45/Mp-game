@@ -10,7 +10,7 @@ import Packets.Packet;
 
 public class Server {
 
-	int portNumber = 22222;
+	int portNumber = 25566;
 	ArrayList<ClientInstance> clientList;
 	public World gameWorld;
 	boolean isRunning = true;

@@ -29,6 +29,7 @@ public class PacketSendEntitiesAndID extends Packet {
 	public void onClient(World world) {
 		for (int i = 0; i < entities.length; i++) {
 			world.addEntity(entities[i], i);
+			System.out.println("Client: Adding an entiy");
 		}
 		world.getPlayer().setID(cID);
 		world.addEntity(world.getPlayer(), cID);

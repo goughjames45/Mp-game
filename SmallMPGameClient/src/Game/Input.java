@@ -8,7 +8,7 @@ public class Input implements KeyListener{
 	
 	
 	@Override
-	public void keyPressed(KeyEvent e) {	
+	public void keyPressed(KeyEvent e) {
 		keys[e.getKeyCode()] = true;
 	}
 

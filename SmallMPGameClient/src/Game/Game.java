@@ -14,7 +14,7 @@ import Packets.PacketUpdatePlayerVelocity;
 
 public class Game {
 
-	public final int TARGET_FPS = 60;
+	public static final int TARGET_FPS = 60;
 
 	Display display;
 	World world;
@@ -72,7 +72,7 @@ public class Game {
 	private void loop() {
 		long startTime = 0L;
 		long endTime = 0L;
-		while (display.isVisible()) {
+		while (display.isVisible() && running) {
 			startTime = System.currentTimeMillis();
 			proccesPacket();
 			display.repaint();

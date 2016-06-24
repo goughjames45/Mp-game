@@ -1,7 +1,7 @@
 package server;
 
 public class Game implements Runnable{
-	public final int TARGET_FPS = 60;
+	public static final int TARGET_FPS = 60;
 	
 	Server server;
 	public Game(Server server) {
@@ -23,7 +23,6 @@ public class Game implements Runnable{
 					e.printStackTrace();
 				}
 			}
-			
 		}
 	}
 	void loop(){

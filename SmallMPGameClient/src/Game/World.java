@@ -45,7 +45,7 @@ public class World {
 		return player;
 	}
 	
-	public Entity[] getEntities(){
+	public synchronized Entity[] getEntities(){
 		Entity[] e = new Entity[entities.size()];
 		entities.toArray(e);
 		return e;
