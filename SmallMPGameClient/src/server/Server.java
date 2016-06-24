@@ -55,6 +55,16 @@ public class Server {
 			}
 		}
 	}
+	
+	public void broadCastPacketToAllBut(Packet p,int cid) {
+		synchronized (clientList) {
+			for (int i = 0; i < clientList.size(); i++) {
+				if(i != cid){
+					clientList.get(i).sendPacket(p);
+				}
+			}
+		}
+	}
 
 	public static void main(String[] args) {
 		new Server();

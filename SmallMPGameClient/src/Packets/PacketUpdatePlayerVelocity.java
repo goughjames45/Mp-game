@@ -3,19 +3,18 @@ package Packets;
 import Game.World;
 import server.Server;
 
-public class PacketUpdatePlayer extends Packet{
+public class PacketUpdatePlayerVelocity extends Packet{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3L;
 
-	int x,y,vx,vy, cID;
+	int vx,vy, cID;
 	
 	
-	public PacketUpdatePlayer(int x, int y, int vx, int vy, int cID) {
-		this.x = x;
-		this.y = y;
+	public PacketUpdatePlayerVelocity(int vx, int vy, int cID) {
+		
 		this.vx = vx;
 		this.vy = vy;
 		this.cID = cID;
@@ -24,13 +23,10 @@ public class PacketUpdatePlayer extends Packet{
 	@Override
 	public void onServer(Server server) {	
 		server.gameWorld.getEntities()[cID].setVelocity(vx, vy);
-		server.gameWorld.getEntities()[cID].setLocation(x, y);
-		
 	}
 
 	@Override
-	public void onClient(World world) {
-		world.getPlayer().setLocation(x, y);
+	public void onClient(World world) {		
 		world.getPlayer().setVelocity(vx, vy);
 	}
 }

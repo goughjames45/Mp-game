@@ -5,9 +5,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import Game.Entity;
+import Game.EntityOtherPlayer;
 import Game.EntityPlayer;
 import Game.World;
 import Packets.Packet;
+import Packets.PacketNewEntity;
 import Packets.PacketSendEntitiesAndID;
 
 public class ClientInstance implements Runnable{
@@ -54,10 +56,14 @@ public class ClientInstance implements Runnable{
 			PacketSendEntitiesAndID pseai = new PacketSendEntitiesAndID(entities, mycID);
 			oos.writeObject(pseai);
 			server.gameWorld.addEntity(new EntityPlayer(null, null), mycID);
+			//Broadcast that an entity has been added
+			EntityOtherPlayer eop = new EntityOtherPlayer();
+			PacketNewEntity pne = new PacketNewEntity(eop, mycID);
+			server.broadCastPacketToAllBut(pne, mycID);			
 			while(mySocket.isConnected()){
 				try{
 					Packet p = (Packet) ois.readObject();
-					System.out.println("readgin client packets" + p.toString());
+					System.out.println("readin client packets" + p.toString());
 					p.onServer(server);
 				}catch(Exception e){
 					e.printStackTrace();

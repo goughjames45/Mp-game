@@ -10,7 +10,7 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 
 import Packets.Packet;
-import Packets.PacketUpdatePlayer;
+import Packets.PacketUpdatePlayerVelocity;
 
 public class Game {
 

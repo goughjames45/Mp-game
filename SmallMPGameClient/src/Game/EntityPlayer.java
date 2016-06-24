@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import Packets.PacketUpdatePlayer;
+import Packets.PacketUpdatePlayerVelocity;
 
 public class EntityPlayer extends Entity implements Runnable {
 
@@ -54,7 +54,7 @@ public class EntityPlayer extends Entity implements Runnable {
 			if (input.isKeyDown(KeyEvent.VK_D)) {
 				vx += 5;
 			}
-			PacketUpdatePlayer pup = new PacketUpdatePlayer(x, y, vx, vy, cID);
+			PacketUpdatePlayerVelocity pup = new PacketUpdatePlayerVelocity( vx, vy, cID);
 			try {
 				oos.writeObject(pup);
 			} catch (IOException e) {
