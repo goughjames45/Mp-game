@@ -52,8 +52,9 @@ public class World {
 	}
 	
 	public synchronized void onServerTick(Server server){
-		for(int i = 0; i < entities.size();i++){
+		for(int i = 0; i < entities.size();i++){		
 			PacketUpdateEntity puppy = new PacketUpdateEntity(i,entities.get(i).getx(),entities.get(i).gety(),entities.get(i).getVelx(),entities.get(i).getVely());
+			System.out.println(puppy.toString());
 			server.broadCastPacket(puppy);
 		}
 	}	

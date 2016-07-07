@@ -24,44 +24,56 @@ public class ClientInstance implements Runnable {
 	int x, y, vx, vy;
 	World world;
 	Server server;
-
+	boolean connected = true;
+	
 	public ClientInstance(Socket socket, Server server, int cID, World world) {
 		mySocket = socket;
 		mycID = cID;
 		this.world = world;
 		this.server = server;
-
+		try {
+			initClient();
+		} catch (IOException e) {
+			e.printStackTrace();
+			dissconectClient();
+		}
 	}
 
 	public void sendPacket(Packet p) {
 		try {
+		//	System.out.println("sending packed to client: " + mycID + " P: "
+		//			+ p.toString());
 			oos.writeObject(p);
-		} catch (IOException e) {
+		} catch (IOException e) {			
 			e.printStackTrace();
+			dissconectClient();
 		}
 	}
+
 	long startTime = 0;
 	long endTime = 0;
+
 	@Override
 	public void run() {
 		try {
-			initClient();
-			while (mySocket.isConnected() && !mySocket.isClosed()) {
+			while (mySocket.isConnected() && !mySocket.isClosed() && connected) {
 				startTime = System.currentTimeMillis();
-				handlePackets();		
+				handlePackets();
 				endTime = System.currentTimeMillis();
 				double mspf = (1f / Game.TARGET_FPS) * 1000;
-				if (endTime - startTime < mspf) {
+				if (endTime - startTime < mspf) {					
 					try {
 						Thread.sleep((long) (mspf - (endTime - startTime)));
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
-				
+
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
 		} finally {
 			try {
 				oos.close();
@@ -71,8 +83,8 @@ public class ClientInstance implements Runnable {
 			}
 		}
 	}
-	
-	private void initClient() throws IOException{
+
+	private void initClient() throws IOException {
 		System.out.println("started server thread for client");
 		oos = new ObjectOutputStream(mySocket.getOutputStream());
 		ois = new ObjectInputStream(mySocket.getInputStream());
@@ -83,7 +95,8 @@ public class ClientInstance implements Runnable {
 				entities[i] = ((EntityPlayer) entities[i]).toOtherPlayer();
 			}
 		}
-		PacketSendEntitiesAndID pseai = new PacketSendEntitiesAndID(entities, mycID);
+		PacketSendEntitiesAndID pseai = new PacketSendEntitiesAndID(entities,
+				mycID);
 		oos.writeObject(pseai);
 		server.gameWorld.addEntity(new EntityPlayer(null, null), mycID);
 		// Broadcast that an entity has been added
@@ -92,18 +105,14 @@ public class ClientInstance implements Runnable {
 		server.broadCastPacketToAllBut(pne, mycID);
 	}
 
-	private void handlePackets() {
-		try {
-			Packet p = (Packet) ois.readObject();
-			System.out.println("reading client packets" + p.toString());
-			p.onServer(server);
-		} catch (Exception e) {
-			e.printStackTrace();
-			try {
-				mySocket.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		}
+	private void handlePackets() throws IOException, ClassNotFoundException {
+		Packet p = (Packet) ois.readObject();
+		System.out.println("reading client packets" + p.toString());
+		p.onServer(server);
+	}
+	
+	public void dissconectClient(){
+		connected = false;
+		server.removeClient(this);
 	}
 }

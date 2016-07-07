@@ -29,7 +29,7 @@ public class PacketUpdatePlayerLocation extends Packet{
 	}
 
 	@Override
-	public void onClient(World world) {
+	public void onClient(World world) {		
 		world.getPlayer().setLocation(x, y);
 		world.getPlayer().setVelocity(vx, vy);
 	}

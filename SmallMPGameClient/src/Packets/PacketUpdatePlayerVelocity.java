@@ -8,7 +8,7 @@ public class PacketUpdatePlayerVelocity extends Packet{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3L;
+	private static final long serialVersionUID = 4L;
 
 	int vx,vy, cID;
 	

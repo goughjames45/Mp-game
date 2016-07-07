@@ -80,6 +80,7 @@ public class Game {
 			double mspf = (1f / TARGET_FPS) * 1000;
 			if (endTime - startTime < mspf) {
 				try {
+			//		System.out.println(mspf - (endTime - startTime));
 					Thread.sleep((long) (mspf - (endTime - startTime)));
 				} catch (InterruptedException e) {
 					e.printStackTrace();

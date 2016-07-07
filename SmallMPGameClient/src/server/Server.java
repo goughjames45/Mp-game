@@ -69,4 +69,10 @@ public class Server {
 	public static void main(String[] args) {
 		new Server();
 	}
+	
+	public void removeClient(ClientInstance ci){
+		synchronized (clientList) {
+			clientList.remove(ci);
+		}
+	}
 }
