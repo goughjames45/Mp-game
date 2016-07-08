@@ -22,7 +22,7 @@ public class PacketUpdatePlayerLocation extends Packet{
 	}
 	
 	@Override
-	public void onServer(Server server) {	
+	public void onServer(Server server, int cID) {	
 		server.gameWorld.getEntities()[cID].setVelocity(vx, vy);
 		server.gameWorld.getEntities()[cID].setLocation(x, y);
 		

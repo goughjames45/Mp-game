@@ -14,7 +14,7 @@ public abstract class Packet implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	
-	public abstract void onServer(Server server);			
+	public abstract void onServer(Server server, int cID);			
 	public abstract void onClient(World world);
 	
 }

@@ -10,6 +10,7 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 
 import Packets.Packet;
+import Packets.PacketUpdateEntities;
 import Packets.PacketUpdatePlayerVelocity;
 
 public class Game {
@@ -93,8 +94,12 @@ public class Game {
 	private void proccesPacket() {
 		Packet p;
 		try {
+			PacketUpdateEntities pue = new PacketUpdateEntities();
+			oos.writeObject(pue);
 			p = (Packet) ois.readObject();
 			p.onClient(world);
+			System.out.println("receving packed from server: "+player.cID + " P: "
+					+ p.toString());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

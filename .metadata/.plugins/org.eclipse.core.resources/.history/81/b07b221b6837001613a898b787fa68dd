@@ -1,0 +1,17 @@
+package server;
+
+public class Game implements Runnable{
+
+	
+	Server server;
+	public Game(Server server) {
+		this.server = server;
+	}
+	
+	@Override
+	public void run() {
+		while(server.isRunning){
+			
+		}
+	}
+}

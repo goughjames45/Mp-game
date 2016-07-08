@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Game.World;
 import Packets.Packet;
@@ -11,13 +12,13 @@ import Packets.Packet;
 public class Server {
 
 	int portNumber = 25566;
-	ArrayList<ClientInstance> clientList;
+	HashMap<Integer,ClientInstance> clientList;
 	public World gameWorld;
 	boolean isRunning = true;
 
 	public Server() {
 		gameWorld = new World(null);
-		clientList = new ArrayList<ClientInstance>();
+		clientList = new HashMap<Integer,ClientInstance>();
 		Game game = new Game(this);
 		Thread gameThread = new Thread(game);
 		gameThread.start();
@@ -31,7 +32,7 @@ public class Server {
 				System.out.println("connected");
 				ClientInstance ci = new ClientInstance(sock, this, clientList.size(), gameWorld);
 				synchronized (clientList) {
-					clientList.add(ci);
+					clientList.put(ci.mycID,ci);
 				}
 				Thread t = new Thread(ci);
 				t.start();
@@ -50,7 +51,7 @@ public class Server {
 
 	public void broadCastPacket(Packet p) {
 		synchronized (clientList) {
-			for (int i = 0; i < clientList.size(); i++) {
+			for (Integer i : clientList.keySet()) {
 				clientList.get(i).sendPacket(p);
 			}
 		}
@@ -58,7 +59,7 @@ public class Server {
 	
 	public void broadCastPacketToAllBut(Packet p,int cid) {
 		synchronized (clientList) {
-			for (int i = 0; i < clientList.size(); i++) {
+			for (Integer i : clientList.keySet()) {
 				if(i != cid){
 					clientList.get(i).sendPacket(p);
 				}
@@ -72,7 +73,20 @@ public class Server {
 	
 	public void removeClient(ClientInstance ci){
 		synchronized (clientList) {
-			clientList.remove(ci);
+			clientList.remove(ci.mycID);
+		}
+	}
+	
+	public void removeClient(int cID){
+		synchronized (clientList) {
+			clientList.remove(cID);
+		}
+		gameWorld.removeEntity(cID);
+	}
+	
+	public ClientInstance getClientInstance(int cID){
+		synchronized (clientList) {
+			return clientList.get(cID);
 		}
 	}
 }

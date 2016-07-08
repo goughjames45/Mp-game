@@ -1,0 +1,5 @@
+package Packets;
+
+public class PacketUpdateEntity extends Packet{
+
+}

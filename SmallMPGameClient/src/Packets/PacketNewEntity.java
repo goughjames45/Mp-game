@@ -20,7 +20,7 @@ public class PacketNewEntity extends Packet {
 	}
 	
 	@Override
-	public void onServer(Server server) {		
+	public void onServer(Server server, int cID ){		
 
 	}
 

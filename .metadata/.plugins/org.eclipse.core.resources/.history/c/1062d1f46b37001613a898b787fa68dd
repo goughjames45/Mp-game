@@ -1,0 +1,28 @@
+package Packets;
+
+import Game.World;
+import server.Server;
+
+public class PacketUpdateEntity extends Packet{
+
+	int id;
+	int vx,vy,x,y;
+	
+	public PacketUpdateEntity(int id,int x, int y,int vx,int vy) {
+		
+	}
+	
+	
+	@Override
+	public void onServer(Server server) {
+		
+		
+	}
+
+	@Override
+	public void onClient(World world) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

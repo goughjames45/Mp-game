@@ -3,7 +3,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import Packets.PacketUpdateEntity;
+import Packets.PacketUpdateEntities;
 import server.Server;
 
 public class World {
@@ -52,10 +52,7 @@ public class World {
 	}
 	
 	public synchronized void onServerTick(Server server){
-		for(int i = 0; i < entities.size();i++){		
-			PacketUpdateEntity puppy = new PacketUpdateEntity(i,entities.get(i).getx(),entities.get(i).gety(),entities.get(i).getVelx(),entities.get(i).getVely());
-			System.out.println(puppy.toString());
-			server.broadCastPacket(puppy);
-		}
+		
 	}	
+	
 }

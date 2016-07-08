@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import Packets.PacketUpdateEntities;
 import Packets.PacketUpdatePlayerVelocity;
 
 public class EntityPlayer extends Entity implements Runnable {
@@ -75,14 +76,16 @@ public class EntityPlayer extends Entity implements Runnable {
 			vx += 5;
 		}
 		if (pvx != vx || pvy != vy) {
-			PacketUpdatePlayerVelocity pup = new PacketUpdatePlayerVelocity(vx, vy, cID);
+			PacketUpdatePlayerVelocity pup = new PacketUpdatePlayerVelocity(vx, vy, cID);			
 			try {
 				oos.writeObject(pup);
+				
+				System.out.println("sending packet");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			pvx = vx;
-			pvy = vy;
+			pvy = vy;			
 		}
 	}
 
