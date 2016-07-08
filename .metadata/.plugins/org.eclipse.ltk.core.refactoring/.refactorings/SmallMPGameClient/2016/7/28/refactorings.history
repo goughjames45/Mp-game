@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename type &apos;Packets.PacketUpdateEntity&apos; to &apos;PacketUpdateEntities&apos;&#x0A;- Original project: &apos;SmallMPGameClient&apos;&#x0A;- Original element: &apos;Packets.PacketUpdateEntity&apos;&#x0A;- Renamed element: &apos;Packets.PacketUpdateEntities&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;PacketUpdateEntity&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;Packets{PacketUpdateEntity.java[PacketUpdateEntity" matchStrategy="1" name="PacketUpdateEntities" qualified="false" references="true" similarDeclarations="false" stamp="1467936134717" textual="false" version="1.0"/>
-</session>
