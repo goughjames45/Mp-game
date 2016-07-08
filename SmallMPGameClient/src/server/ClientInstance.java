@@ -41,8 +41,8 @@ public class ClientInstance implements Runnable {
 
 	public void sendPacket(Packet p) {
 		try {
-			System.out.println("sending packed to client: " + mycID + " P: "
-					+ p.toString());
+			//System.out.println("sending packed to client: " + mycID + " P: "
+			//		+ p.toString());
 			oos.writeObject(p);
 		} catch (IOException e) {			
 			e.printStackTrace();
@@ -107,7 +107,7 @@ public class ClientInstance implements Runnable {
 
 	private void handlePackets() throws IOException, ClassNotFoundException {
 		Packet p = (Packet) ois.readObject();
-		System.out.println("reading client packets" + p.toString());
+		//System.out.println("reading client packets" + p.toString());
 		p.onServer(server,mycID);
 	}
 	

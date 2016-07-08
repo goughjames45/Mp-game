@@ -98,8 +98,8 @@ public class Game {
 			oos.writeObject(pue);
 			p = (Packet) ois.readObject();
 			p.onClient(world);
-			System.out.println("receving packed from server: "+player.cID + " P: "
-					+ p.toString());
+			//System.out.println("receving packed from server: "+player.cID + " P: "
+			//		+ p.toString());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
