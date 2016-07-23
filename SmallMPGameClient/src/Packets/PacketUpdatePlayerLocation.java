@@ -1,5 +1,6 @@
 package Packets;
 
+import Game.Entity;
 import Game.World;
 import server.Server;
 
@@ -22,14 +23,16 @@ public class PacketUpdatePlayerLocation extends Packet{
 	}
 	
 	@Override
-	public void onServer(Server server, int cID) {	
-		server.gameWorld.getEntities().get(cID).setVelocity(vx, vy);
-		server.gameWorld.getEntities().get(cID).setLocation(x, y);
-		
+	public void onServer(Server server, int cID) {
+		synchronized (server.gameWorld) {
+			Entity e = server.gameWorld.getEntities().get(cID);
+			e.setVelocity(vx, vy);
+			e.setLocation(x, y);
+		}		
 	}
 
 	@Override
-	public void onClient(World world) {		
+	public void onClient(World world) {	
 		world.getPlayer().setLocation(x, y);
 		world.getPlayer().setVelocity(vx, vy);
 	}
