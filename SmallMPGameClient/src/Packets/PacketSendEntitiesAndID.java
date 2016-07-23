@@ -1,5 +1,7 @@
 package Packets;
 
+import java.util.HashMap;
+
 import Game.Entity;
 import Game.EntityPlayer;
 import Game.World;
@@ -12,10 +14,10 @@ public class PacketSendEntitiesAndID extends Packet {
 	 */
 	private static final long serialVersionUID = 2L;
 
-	Entity[] entities;
+	HashMap<Integer, Entity> entities;
 	int cID;
 
-	public PacketSendEntitiesAndID(Entity[] es, int cID) {
+	public PacketSendEntitiesAndID(HashMap<Integer, Entity> es, int cID) {
 		entities = es;
 		this.cID = cID;
 	}
@@ -27,9 +29,12 @@ public class PacketSendEntitiesAndID extends Packet {
 
 	@Override
 	public void onClient(World world) {
-		for (int i = 0; i < entities.length; i++) {
-			world.addEntity(entities[i], i);
-			System.out.println("Client: Adding an entiy");
+		for(Integer i : entities.keySet()){
+			Entity  e = entities.get(i);
+			if(e instanceof EntityPlayer){
+				e = ((EntityPlayer) e).toOtherPlayer();
+			}
+			world.addEntity(e, i);
 		}
 		world.getPlayer().setID(cID);
 		world.addEntity(world.getPlayer(), cID);

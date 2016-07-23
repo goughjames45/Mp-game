@@ -10,6 +10,7 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 
 import Packets.Packet;
+import Packets.PacketDissconnect;
 import Packets.PacketUpdateEntities;
 import Packets.PacketUpdatePlayerVelocity;
 
@@ -43,12 +44,14 @@ public class Game {
 			try {
 				oos.close();
 			} catch (IOException e) {
+				System.exit(-1);
 				e.printStackTrace();
 			}
 		}
 	}
-
+	int count = 0;
 	private void init() {
+		count++;
 		try {
 			String host = (String) JOptionPane.showInputDialog("Enter host");
 			int port = Integer.parseInt(
@@ -65,7 +68,9 @@ public class Game {
 			playerControl.start();
 		} catch (Exception e) {
 			e.printStackTrace();
-			init();
+			if(count < 4){
+				init();
+			}
 		}
 		
 	}
@@ -89,6 +94,13 @@ public class Game {
 			}
 		}
 		running = false;
+		display.dispose();
+		try{
+			PacketDissconnect dis= new PacketDissconnect();
+			oos.writeObject(dis);
+		} catch (IOException e) {
+			e.printStackTrace();			
+		}
 	}
 
 	private void proccesPacket() {
@@ -102,8 +114,10 @@ public class Game {
 			//		+ p.toString());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+			Game.running = false;
 		} catch (IOException e) {
 			e.printStackTrace();
+			Game.running = false;
 		}
 	}
 }

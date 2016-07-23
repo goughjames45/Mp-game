@@ -1,13 +1,14 @@
 package Game;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import Packets.PacketUpdateEntities;
 import server.Server;
 
 public class World {
-	ArrayList<Entity> entities = new ArrayList<Entity>();
+	HashMap<Integer,Entity> entities = new HashMap<Integer,Entity>();
 	EntityPlayer player;
 	
 	public World(EntityPlayer player){
@@ -15,21 +16,21 @@ public class World {
 	}
 	
 	public synchronized void render(Graphics g){
-		Iterator<Entity> it = entities.iterator();
+		Iterator<Entity> it = entities.values().iterator();
 		while(it.hasNext()){
 			it.next().draw(g);
 		}
 	}
 	
 	public synchronized void tick(){
-		Iterator<Entity> it = entities.iterator();
+		Iterator<Entity> it = entities.values().iterator();
 		while(it.hasNext()){
 			it.next().tick();
 		}
 	}
 	
 	public synchronized void addEntity(Entity e, int index){
-		entities.add(e);
+		entities.put(index,e);
 	}
 	
 	public synchronized void removeEntity(int index){
@@ -45,11 +46,10 @@ public class World {
 		return player;
 	}
 	
-	public synchronized Entity[] getEntities(){
-		Entity[] e = new Entity[entities.size()];
-		entities.toArray(e);
-		return e;
+	public HashMap<Integer, Entity> getEntities(){
+		return entities;
 	}
+	
 	
 	public synchronized void onServerTick(Server server){
 		

@@ -2,6 +2,7 @@ package Packets;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Game.Entity;
 import Game.World;
@@ -17,31 +18,40 @@ public class PacketUpdateEntities extends Packet {
 
 	
 	
-	public void addEntityData(int x,int  y, int vx, int vy){
+	public void addEntityData(int id,int x,int  y, int vx, int vy){
 		EntityData data = new EntityData();
 		data.x = x;
 		data.y = y;
 		data.vx = vx;
 		data.vy = vy;
+		data.id = id;
 		entityData.add(data);
 	}
 	
 	@Override
 	public void onServer(Server server, int cID) {
-		Entity[] entities = server.gameWorld.getEntities();
+		// Client sends this to request update form server
+		HashMap<Integer, Entity> entities =  null;
+		synchronized(server.gameWorld){
+			entities = (HashMap<Integer, Entity>) server.gameWorld.getEntities().clone();
+		}
 		PacketUpdateEntities pue = new PacketUpdateEntities();
-		for(int i =0;i<entities.length;i++){			
-			pue.addEntityData(entities[i].getx(), entities[i].gety(), entities[i].getVelx(), entities[i].getVely());
+		for(Integer i : entities.keySet()){	
+			Entity e = entities.get(i);
+			pue.addEntityData(i,e.getx(), e.gety(), e.getVelx(), e.getVely());
 		}
 		server.getClientInstance(cID).sendPacket(pue);
 	}
 
 	@Override
 	public void onClient(World world) {
-		Entity[] entities = world.getEntities();
-		for(int i =0;i<entities.length;i++){		
-			entities[i].setLocation(entityData.get(i).x,entityData.get(i).y);
-			entities[i].setVelocity(entityData.get(i).vx,entityData.get(i).vy);
+		synchronized (world) {	
+			HashMap<Integer, Entity> entities = world.getEntities();
+			for(EntityData ed : entityData){
+				Entity  e = entities.get(ed.id);
+				e.setLocation(ed.x,ed.y);
+				e.setVelocity(ed.vx,ed.vy);
+			}
 		}
 	}
 

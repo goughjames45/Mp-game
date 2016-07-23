@@ -78,9 +78,7 @@ public class EntityPlayer extends Entity implements Runnable {
 		if (pvx != vx || pvy != vy) {
 			PacketUpdatePlayerVelocity pup = new PacketUpdatePlayerVelocity(vx, vy, cID);			
 			try {
-				oos.writeObject(pup);
-				
-				System.out.println("sending packet");
+				oos.writeObject(pup);				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

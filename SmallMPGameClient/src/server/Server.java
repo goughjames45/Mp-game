@@ -3,8 +3,8 @@ package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import Game.World;
 import Packets.Packet;
@@ -12,13 +12,14 @@ import Packets.Packet;
 public class Server {
 
 	int portNumber = 25566;
-	HashMap<Integer,ClientInstance> clientList;
+	HashMap<Integer, ClientInstance> clientList;
+	HashSet<Integer> usedIDs = new HashSet<Integer>();
 	public World gameWorld;
 	boolean isRunning = true;
 
 	public Server() {
 		gameWorld = new World(null);
-		clientList = new HashMap<Integer,ClientInstance>();
+		clientList = new HashMap<Integer, ClientInstance>();
 		Game game = new Game(this);
 		Thread gameThread = new Thread(game);
 		gameThread.start();
@@ -30,9 +31,9 @@ public class Server {
 				System.out.println("wathing for client");
 				Socket sock = ss.accept();
 				System.out.println("connected");
-				ClientInstance ci = new ClientInstance(sock, this, clientList.size(), gameWorld);
+				ClientInstance ci = new ClientInstance(sock, this, genClientID(), gameWorld);
 				synchronized (clientList) {
-					clientList.put(ci.mycID,ci);
+					clientList.put(ci.mycID, ci);
 				}
 				Thread t = new Thread(ci);
 				t.start();
@@ -56,11 +57,11 @@ public class Server {
 			}
 		}
 	}
-	
-	public void broadCastPacketToAllBut(Packet p,int cid) {
+
+	public void broadCastPacketToAllBut(Packet p, int cid) {
 		synchronized (clientList) {
 			for (Integer i : clientList.keySet()) {
-				if(i != cid){
+				if (i != cid) {
 					clientList.get(i).sendPacket(p);
 				}
 			}
@@ -70,23 +71,41 @@ public class Server {
 	public static void main(String[] args) {
 		new Server();
 	}
-	
-	public void removeClient(ClientInstance ci){
+
+	public void removeClient(ClientInstance ci) {
 		synchronized (clientList) {
 			clientList.remove(ci.mycID);
 		}
+		synchronized (usedIDs) {
+			usedIDs.remove(ci.mycID);
+		}
+		gameWorld.removeEntity(ci.mycID);
 	}
-	
-	public void removeClient(int cID){
+
+	public void removeClient(int cID) {
 		synchronized (clientList) {
 			clientList.remove(cID);
 		}
+		synchronized (usedIDs) {
+			usedIDs.remove(cID);
+		}
 		gameWorld.removeEntity(cID);
 	}
-	
-	public ClientInstance getClientInstance(int cID){
+
+	public ClientInstance getClientInstance(int cID) {
 		synchronized (clientList) {
 			return clientList.get(cID);
 		}
+	}
+
+	public int genClientID() {
+		int id = 0;
+		synchronized (usedIDs) {
+			while (usedIDs.contains(id)) {
+				id++;
+			}
+			usedIDs.add(id);
+		}
+		return id;
 	}
 }
