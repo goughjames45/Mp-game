@@ -22,7 +22,7 @@ public class Display extends JFrame {
 		setLayout(null);
 		setSize(WIDTH, HEIGHT);
 		setVisible(true);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		//setDefaultCloseOperation(_ON_CLOSE);
 	}
 
 	@Override

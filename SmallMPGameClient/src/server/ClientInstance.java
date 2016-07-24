@@ -59,7 +59,7 @@ public class ClientInstance implements Runnable {
 		try {
 			while (mySocket.isConnected() && !mySocket.isClosed() && connected) {
 				startTime = System.currentTimeMillis();
-				handlePackets();
+				handlePackets();				
 				endTime = System.currentTimeMillis();
 				double mspf = (1f / Game.TARGET_FPS) * 1000;
 				if (endTime - startTime < mspf) {
@@ -69,7 +69,6 @@ public class ClientInstance implements Runnable {
 						e.printStackTrace();
 					}
 				}
-
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -77,8 +76,9 @@ public class ClientInstance implements Runnable {
 			e1.printStackTrace();
 		} finally {
 			try {
-				oos.close();
-				ois.close();
+				if(connected){
+					dissconectClient();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -115,15 +115,15 @@ public class ClientInstance implements Runnable {
 	}
 
 	public void dissconectClient() {
+		connected = false;		
 		try {
 			oos.close();
 			ois.close();
 			mySocket.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException e) {			
 			e.printStackTrace();
 		}
-		connected = false;
+		
 		server.removeClient(this);
 	}
 }

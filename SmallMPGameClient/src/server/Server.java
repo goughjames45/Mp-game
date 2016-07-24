@@ -27,7 +27,7 @@ public class Server {
 		try {
 			ServerSocket ss = new ServerSocket(portNumber);
 
-			while (!ss.isClosed()) {
+			while (!ss.isClosed() && isRunning) {
 				System.out.println("wathing for client");
 				Socket sock = ss.accept();
 				System.out.println("connected");
@@ -38,7 +38,12 @@ public class Server {
 				Thread t = new Thread(ci);
 				t.start();
 			}
-
+			synchronized (clientList) {
+				for(ClientInstance ci : clientList.values()){
+					ci.dissconectClient();
+				}
+			}
+			ss.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

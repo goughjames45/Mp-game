@@ -32,6 +32,7 @@ public class Game {
 		init();
 		loop();
 
+		/*
 		// closes the streams
 		if (ois != null) {
 			try {
@@ -44,10 +45,11 @@ public class Game {
 			try {
 				oos.close();
 			} catch (IOException e) {
-				System.exit(-1);
+				//System.exit(-1);
 				e.printStackTrace();
 			}
 		}
+		*/
 	}
 	int count = 0;
 	private void init() {
@@ -96,6 +98,7 @@ public class Game {
 		running = false;
 		display.dispose();
 		try{
+			System.out.println("sending dissconect packet");
 			PacketDissconnect dis= new PacketDissconnect();
 			oos.writeObject(dis);
 		} catch (IOException e) {
