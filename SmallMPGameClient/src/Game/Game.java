@@ -14,7 +14,7 @@ import Packets.PacketDissconnect;
 import Packets.PacketUpdateEntities;
 import Packets.PacketUpdatePlayerVelocity;
 
-public class Game {
+public class Game implements Runnable{
 
 	public static final int TARGET_FPS = 60;
 
@@ -66,8 +66,11 @@ public class Game {
 			world = new World(player);
 			display = new Display(world);
 			display.addKeyListener(input);
+			input.setDisplay(display);
+			Thread packets = new Thread(this);
+			packets.start();
 			Thread playerControl = new Thread(player);
-			playerControl.start();
+			playerControl.start();			
 		} catch (Exception e) {
 			e.printStackTrace();
 			if(count < 4){
@@ -82,7 +85,6 @@ public class Game {
 		long endTime = 0L;
 		while (display.isVisible() && running) {
 			startTime = System.currentTimeMillis();
-			proccesPacket();
 			display.repaint();
 			endTime = System.currentTimeMillis();
 			double mspf = (1f / TARGET_FPS) * 1000;
@@ -110,7 +112,7 @@ public class Game {
 		Packet p;
 		try {
 			PacketUpdateEntities pue = new PacketUpdateEntities();
-			oos.writeObject(pue);
+			player.sendPacket(pue);
 			p = (Packet) ois.readObject();
 			p.onClient(world);
 			//System.out.println("receving packed from server: "+player.cID + " P: "
@@ -121,6 +123,13 @@ public class Game {
 		} catch (IOException e) {
 			e.printStackTrace();
 			Game.running = false;
+		}
+	}
+
+	@Override
+	public void run() {
+		while(running){
+			proccesPacket();
 		}
 	}
 }

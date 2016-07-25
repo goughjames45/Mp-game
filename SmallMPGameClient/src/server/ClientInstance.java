@@ -40,7 +40,7 @@ public class ClientInstance implements Runnable {
 		}
 	}
 
-	public void sendPacket(Packet p) {
+	public synchronized void sendPacket(Packet p) {
 		try {
 			// System.out.println("sending packed to client: " + mycID + " P: "
 			// + p.toString());
@@ -63,12 +63,15 @@ public class ClientInstance implements Runnable {
 				endTime = System.currentTimeMillis();
 				double mspf = (1f / Game.TARGET_FPS) * 1000;
 				if (endTime - startTime < mspf) {
+					/*
 					try {
 						Thread.sleep((long) (mspf - (endTime - startTime)));
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					*/
 				}
+				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

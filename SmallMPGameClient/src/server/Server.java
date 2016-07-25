@@ -6,8 +6,12 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import Game.Entity;
 import Game.World;
 import Packets.Packet;
+import Packets.PacketNewEntity;
+import Packets.PacketRemoveEntity;
+import Packets.PacketUpdatePlayerLocation;
 
 public class Server {
 
@@ -84,7 +88,7 @@ public class Server {
 		synchronized (usedIDs) {
 			usedIDs.remove(ci.mycID);
 		}
-		gameWorld.removeEntity(ci.mycID);
+		removeEntityFromGameWorld(ci.mycID);
 	}
 
 	public void removeClient(int cID) {
@@ -94,7 +98,7 @@ public class Server {
 		synchronized (usedIDs) {
 			usedIDs.remove(cID);
 		}
-		gameWorld.removeEntity(cID);
+		removeEntityFromGameWorld(cID);
 	}
 
 	public ClientInstance getClientInstance(int cID) {
@@ -113,4 +117,17 @@ public class Server {
 		}
 		return id;
 	}
+	
+	public void removeEntityFromGameWorld(int id){
+		gameWorld.removeEntity(id);
+		PacketRemoveEntity pre = new PacketRemoveEntity(id);
+		broadCastPacket(pre);
+	}
+	
+	public void spawnEntity(Entity e){
+		int id = gameWorld.addEntity(e);
+		PacketNewEntity pne = new PacketNewEntity(e, id);
+		broadCastPacket(pne);
+	}
+	
 }

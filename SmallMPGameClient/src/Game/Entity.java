@@ -8,17 +8,27 @@ public class Entity implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 10L;
+	private static final long serialVersionUID = 100L;
 	int x,y,r,vx,vy;
+	int px,py;
+	private boolean collider = true;
 	
 	public void draw(Graphics g){
 		g.setColor(Color.BLUE);
 		g.drawString("Basic Entity", x, y);
 	}
 	
-	public void tick(){
+	public boolean tick(World world){
+		px = x;
+		py = y;
 		x += vx;
-		y += vy;
+		y += vy;	
+		return (vx != 0 || vy != 0);
+	}
+	
+	public void unTick(){
+		x = px;
+		y = py;
 	}
 	
 	public void setLocation(int x, int y){
@@ -40,5 +50,18 @@ public class Entity implements Serializable{
 	}
 	public int getVely(){
 		return vy;
+	}
+	
+	public boolean checkCollision(Entity otherEntity){
+		double dist = Math.sqrt( Math.pow(x - otherEntity.x, 2) + Math.pow(y - otherEntity.y, 2));
+		return (dist < r + otherEntity.r);		
+	}
+	
+	public boolean isCollider(){
+		return collider;
+	}
+	
+	public void setCollidable(boolean collidable){
+		collider = collidable;
 	}
 }

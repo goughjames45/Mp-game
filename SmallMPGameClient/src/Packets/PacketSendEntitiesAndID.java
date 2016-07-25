@@ -12,7 +12,7 @@ public class PacketSendEntitiesAndID extends Packet {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 5L;
 
 	HashMap<Integer, Entity> entities;
 	int cID;

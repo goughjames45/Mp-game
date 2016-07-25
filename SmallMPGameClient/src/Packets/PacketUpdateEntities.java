@@ -13,7 +13,7 @@ public class PacketUpdateEntities extends Packet {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5L;
+	private static final long serialVersionUID = 6L;
 	ArrayList<EntityData> entityData = new ArrayList<EntityData>();
 
 	
@@ -59,7 +59,7 @@ public class PacketUpdateEntities extends Packet {
 		/**
 		 * 
 		 */
-		private static final long serialVersionUID = 100L;
+		private static final long serialVersionUID = 1000L;
 		int id;
 		int vx, vy, x, y;
 	}

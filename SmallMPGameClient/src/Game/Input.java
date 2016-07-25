@@ -6,6 +6,7 @@ public class Input implements KeyListener{
 
 	boolean[] keys = new boolean[256];
 	
+	Display display;
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -23,5 +24,7 @@ public class Input implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {}
-	
+	public void setDisplay(Display display){
+		this.display = display;
+	}
 }

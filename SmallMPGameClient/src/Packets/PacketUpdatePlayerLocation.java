@@ -9,7 +9,7 @@ public class PacketUpdatePlayerLocation extends Packet{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3L;
+	private static final long serialVersionUID = 7L;
 
 	int x,y,vx,vy, cID;
 	
