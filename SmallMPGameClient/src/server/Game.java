@@ -1,5 +1,9 @@
 package server;
 
+import Game.Display;
+import Game.Entity;
+import Game.EntityEnemy;
+
 public class Game implements Runnable {
 	public static final int TARGET_FPS = 60;
 
@@ -34,6 +38,14 @@ public class Game implements Runnable {
 	void loop() {
 		server.gameWorld.tick();
 		server.gameWorld.onServerTick(server);
-
+		spawnEnemies();
+	}
+	
+	void spawnEnemies(){
+		if(Math.random()*600 <= 5){
+			int x = (int) (Math.random()*Display.WIDTH);
+			int y = (int) (Math.random()*Display.HEIGHT);
+			server.spawnEntity(new EntityEnemy(x,y));
+		}
 	}
 }

@@ -22,7 +22,7 @@ public class Server {
 	boolean isRunning = true;
 
 	public Server() {
-		gameWorld = new World(null);
+		gameWorld = new World(null,this);
 		clientList = new HashMap<Integer, ClientInstance>();
 		Game game = new Game(this);
 		Thread gameThread = new Thread(game);
@@ -88,7 +88,7 @@ public class Server {
 		synchronized (usedIDs) {
 			usedIDs.remove(ci.mycID);
 		}
-		removeEntityFromGameWorld(ci.mycID);
+		despawnEntity(ci.mycID);
 	}
 
 	public void removeClient(int cID) {
@@ -98,7 +98,7 @@ public class Server {
 		synchronized (usedIDs) {
 			usedIDs.remove(cID);
 		}
-		removeEntityFromGameWorld(cID);
+		despawnEntity(cID);
 	}
 
 	public ClientInstance getClientInstance(int cID) {
@@ -118,16 +118,13 @@ public class Server {
 		return id;
 	}
 	
-	public void removeEntityFromGameWorld(int id){
+	public void despawnEntity(int id){
 		gameWorld.removeEntity(id);
-		PacketRemoveEntity pre = new PacketRemoveEntity(id);
-		broadCastPacket(pre);
+		
 	}
 	
 	public void spawnEntity(Entity e){
-		int id = gameWorld.addEntity(e);
-		PacketNewEntity pne = new PacketNewEntity(e, id);
-		broadCastPacket(pne);
+		gameWorld.addEntity(e);
 	}
 	
 }

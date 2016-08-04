@@ -23,6 +23,7 @@ public class EntityPlayer extends Entity implements Runnable {
 	ObjectOutputStream oos;
 	int cID;
 	int timeToShoot = 0;
+	int shootDelay = 50;
 
 	public EntityPlayer(Input input, ObjectOutputStream oos) {
 		r = 20;
@@ -87,11 +88,10 @@ public class EntityPlayer extends Entity implements Runnable {
 			pvy = vy;			
 		}
 		if(input.isKeyDown(KeyEvent.VK_SPACE)){
-			if(timeToShoot < 1){
-				timeToShoot = 100;
+			if(timeToShoot <= 0){
+				timeToShoot = shootDelay;
 				Point mouse = input.display.getMousePosition();
-				if(mouse!= null){
-					System.out.println("shoot");
+				if(mouse!= null){					
 					double hyp = Math.sqrt(Math.pow(x - mouse.getX(), 2) + Math.pow(y - mouse.getY(), 2));
 					double dx = (mouse.getX() - (double)x)/hyp;
 					double dy = (mouse.getY() - (double)y)/hyp;

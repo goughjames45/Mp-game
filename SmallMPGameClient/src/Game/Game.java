@@ -63,7 +63,7 @@ public class Game implements Runnable{
 			oos = new ObjectOutputStream(server.getOutputStream());
 			input = new Input();
 			player = new EntityPlayer(input, oos);
-			world = new World(player);
+			world = new World(player,null);
 			display = new Display(world);
 			display.addKeyListener(input);
 			input.setDisplay(display);
@@ -101,11 +101,18 @@ public class Game implements Runnable{
 		display.dispose();
 		try{
 			System.out.println("sending dissconect packet");
-			PacketDissconnect dis= new PacketDissconnect();
+			PacketDissconnect dis = new PacketDissconnect();
 			oos.writeObject(dis);
 		} catch (IOException e) {
 			e.printStackTrace();			
 		}
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void proccesPacket() {

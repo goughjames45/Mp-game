@@ -12,6 +12,8 @@ public class Entity implements Serializable{
 	int x,y,r,vx,vy;
 	int px,py;
 	private boolean collider = true;
+	int id = -1;
+	boolean toBeRemoved = false;
 	
 	public void draw(Graphics g){
 		g.setColor(Color.BLUE);
@@ -63,5 +65,9 @@ public class Entity implements Serializable{
 	
 	public void setCollidable(boolean collidable){
 		collider = collidable;
+	}
+	
+	public void setID(int id){
+		this.id = id;
 	}
 }
