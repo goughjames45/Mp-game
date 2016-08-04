@@ -49,8 +49,10 @@ public class PacketUpdateEntities extends Packet {
 			HashMap<Integer, Entity> entities = world.getEntities();
 			for(EntityData ed : entityData){
 				Entity  e = entities.get(ed.id);
-				e.setLocation(ed.x,ed.y);
-				e.setVelocity(ed.vx,ed.vy);
+				if(e!= null){
+					e.setLocation(ed.x,ed.y);
+					e.setVelocity(ed.vx,ed.vy);
+				}
 			}
 		}
 	}
